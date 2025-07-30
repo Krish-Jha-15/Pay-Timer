@@ -19,7 +19,7 @@ const transporter = nodemailer.createTransport({
 async function sendMail(to, subject, htmlMessage) {
   try {
     const info = await transporter.sendMail({
-      from: `"Payment Reminder" <${process.env.USERMAIL}>`,
+      from: `"Pay-Timer" <${process.env.USERMAIL}>`,
       to: to,
       subject: subject,
       html: htmlMessage,

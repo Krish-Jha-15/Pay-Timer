@@ -16,12 +16,19 @@ console.log("otpstore contents2:", otpstore);
 
     otpstore[email] = { otp, expiry };
     
-    const subject="Your Otp Code"
-    const http=`<h2>OTP Verification</h2>
-                <p>Your OTP is: <strong>${otp}</strong></p>
-                <p>It expires in 2 minutes.</p>`;
-                console.log("OTP:", otp);
-    await sendMail(email,subject,http)
+   const subject = "Your OTP Code for Verification";
+    const html = `
+        <div style="font-family: Arial, sans-serif; padding: 16px;">
+            <h2 style="color: #333;">OTP Verification</h2>
+            <p>Your one-time password (OTP) is:</p>
+            <p style="font-size: 24px; font-weight: bold; color: #2c3e50;">${otp}</p>
+            <p>This OTP is valid for <strong>2 minutes</strong>.</p>
+            <p>If you didn't request this, please ignore this email.</p>
+            <br/>
+            <p style="font-size: 12px; color: #999;">— Pay-Timer Team</p>
+        </div>
+    `;
+    await sendMail(email,subject,html)
     return res.status(200)
                .json(
                 new ApiResponse(200,otp,"Otp Send Successfully")
