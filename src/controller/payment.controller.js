@@ -88,6 +88,9 @@ const deleterequest = asyncHandler(async (req, res) => {
 
 const getMyPayments = asyncHandler(async (req, res) => {
   const payments = await Payment.find({ owner: req.user._id });
+  if (!payments || payments.length === 0) {
+    throw new ApiError(404, "No payment requests found");
+  }
   res.status(200).json(new ApiResponse(200, payments, "Your payment requests"));
 });
 
