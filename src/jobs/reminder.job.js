@@ -4,7 +4,7 @@ import { Payment } from "../model/payment.model.js";
 import { sendMail } from "../jobs/email.job.js";
 
 // Runs every day at 8:00 AM
-cron.schedule("0 8 * * *", async () => {
+cron.schedule("0 15 * * *", async () => {
   console.log("🕗 Running payment reminder cron...");
 
   try {

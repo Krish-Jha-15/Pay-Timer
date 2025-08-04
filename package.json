@@ -6,11 +6,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/index.js",
-<<<<<<< HEAD
-    "start": "node src/index.js"
-=======
      "start": "node src/index.js"
->>>>>>> 2c7aee6a7652ed58c8ec25bb843a067915c6efc9
   },
   "keywords": [
     "hello"
