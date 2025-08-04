@@ -4,35 +4,39 @@ import { ApiError } from "../utiles/ApiError.js";
 import { User } from "../model/user.model.js";
 
 const verifyjwt = asyncHandler(async (req, res, next) => {
-  const bearerToken = req.header("Authorization");
-console.log("🔍 Incoming token:", req.cookies?.accessToken || req.header("Authorization"));
+    const token = req.cookies?.accessToken || req.headers.authorization?.replace("Bearer ", "");
 
-  const token =
-    req.cookies?.accessToken ||
-    (bearerToken && bearerToken.startsWith("Bearer ")
-      ? bearerToken.replace("Bearer ", "")
-      : null);
+    if (!token) {
+        console.error("❌ No token provided. Authorization header or cookie missing.");
+        throw new ApiError(401, "Unauthorized user, token not found");
+    }
 
-  if (!token) {
-    console.log("❌ No token provided");
-    throw new ApiError(401, "Unauthorized user, token not found");
-  }
+    let decodedToken;
+    try {
+        decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    } catch (error) {
+        console.error("❌ JWT verification failed:", error.message);
+        throw new ApiError(401, "Invalid or expired token");
+    }
+    
+    if (!decodedToken?._id) {
+        console.error("❌ Decoded token is missing a user ID.");
+        throw new ApiError(401, "Invalid token payload");
+    }
 
-  console.log("✅ Token found, verifying...", token);
+    const user = await User.findById(decodedToken._id).select("-password"); 
+    
+    if (!user) {
+        console.error(`❌ User not found for ID: ${decodedToken._id}.`);
+        throw new ApiError(401, "Unauthorized user, user from token not found");
+    }
 
-  const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-  console.log("✅ Decoded token:", decodedToken);
+    // Attach the user object to the request
+    req.user = user;
 
-  const user = await User.findById(decodedToken?._id);
-  if (!user) {
-    console.log("❌ No user found for _id:", decodedToken?._id);
-    throw new ApiError(401, "Unauthorized user, invalid token");
-  }
+    console.log(`✅ User authenticated: ${user.email}`);
 
-  console.log("✅ Authenticated user:", user.email);
-  req.user = user;
-
-  next();
+    next();
 });
 
 export { verifyjwt };

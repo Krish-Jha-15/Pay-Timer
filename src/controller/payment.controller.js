@@ -89,11 +89,11 @@ const deleterequest = asyncHandler(async (req, res) => {
 const getMyPayments = asyncHandler(async (req, res) => {
   
   if (!req.user || !req.user._id) {
-    console.log("❌ req.user is undefined in getMyPayments"); 
-    throw new ApiError(401, "User not authenticated");
-  }
-console.log("✅ User authenticated, fetching payments for user:", req.user.email);
-  console.log("User ID:", req.user._id);
+        console.log("❌ req.user is undefined in getMyPayments");
+        throw new ApiError(401, "User not authenticated");
+    }
+    console.log("✅ User authenticated, fetching payments for user:", req.user.email);
+    console.log("User ID:", req.user._id);
   const payments = await Payment.find({ owner: req.user._id });
 
   if (!payments || payments.length === 0) {
