@@ -80,7 +80,9 @@ const generateAccessandRefreshToken= async(userId)=>{
 
 const  option={
     httpOnly:true,
-    secure:true
+    secure:true,
+    sameSite: 'none', // Critical for cross-domain cookie sharing
+    domain: '.onrender.com' // Crucial: sets the cookie for the entire render domain
   }
 
 
@@ -126,10 +128,11 @@ const login=asyncHandler(async(req,res)=>{
 
   const {accessToken,refreshToken}=await generateAccessandRefreshToken(user._id)
 
-  
   const option={
     httpOnly:true,
-    secure:true
+    secure:true,
+    sameSite: 'none', // Critical for cross-domain cookie sharing
+    domain: '.onrender.com' // Crucial: sets the cookie for the entire render domain
   }
 
  delete otpstore[email]; 
