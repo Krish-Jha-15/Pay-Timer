@@ -5,7 +5,7 @@ import cors from "cors";
 const app = express();
 console.log(process.env.CORS_ORIGIN);
 app.use(cors({
-    origin:process.env.CORS_ORIGIN,
+    origin:"https://pay-timer.netlify.app",
     credentials: true,
 }))
 
