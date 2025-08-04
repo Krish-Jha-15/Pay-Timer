@@ -20,8 +20,8 @@ app.use(express.urlencoded({
     limit: "16kb"
 }))
 
-app.use(express.static("public"));
 app.use(cookieParser());
+app.use(express.static("public"));
 
 import userRouter from "./router/user.router.js"
 import PaymentRouter from "./router/payment.router.js"
