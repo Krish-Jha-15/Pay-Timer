@@ -55,7 +55,7 @@ const generateAccessandRefreshToken= async(userId)=>{
    }
 
    if (storedOtp.expiry < Date.now()) {
-     otpstore.delete(email);
+      delete otpstore[email];
      throw new ApiError(401, "OTP expired");
   }
 
@@ -106,6 +106,18 @@ const login=asyncHandler(async(req,res)=>{
   {
     throw new ApiError(400,"Enter Valid Email")
   }
+
+  const storedOtp = otpstore[email];
+
+  if (!storedOtp || storedOtp.otp !== otp) {
+    throw new ApiError(401, "Invalid OTP");
+  }
+
+  if (storedOtp.expiry < Date.now()) {
+    delete otpstore[email];
+    throw new ApiError(401, "OTP expired");
+  }
+
   const user=await User.findOne({email})
   if(!user)
   {
@@ -120,7 +132,9 @@ const login=asyncHandler(async(req,res)=>{
     secure:true
   }
 
-  return res.status(200)
+ delete otpstore[email]; 
+ 
+ return res.status(200)
             .cookie("accessToken",accessToken,option)
             .cookie("refreshToken",refreshToken,option)
 
