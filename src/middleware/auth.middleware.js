@@ -4,6 +4,7 @@ import { ApiError } from "../utiles/ApiError.js";
 import { User } from "../model/user.model.js";
 
 const verifyjwt = asyncHandler(async (req, res, next) => {
+    console.log("🔍 [JWT Middleware] Checking for token in cookies or headers...");
     const token = req.cookies?.accessToken || req.headers.authorization?.replace("Bearer ", "");
 
     if (!token) {
