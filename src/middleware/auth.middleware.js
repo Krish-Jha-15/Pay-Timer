@@ -18,6 +18,7 @@ const verifyjwt = asyncHandler(async (req, _, next) => {
     throw new ApiError(401, "Unauthorized user, token not found");
   }
 
+  console.log("✅ Token found, verifying...",token);
   
   const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
   console.log("✅ Decoded token:", decodedToken); 
