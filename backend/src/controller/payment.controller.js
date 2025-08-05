@@ -96,7 +96,7 @@ const getMyPayments = asyncHandler(async (req, res) => {
     console.log("User ID:", req.user._id);
   const payments = await Payment.find({ owner: req.user._id });
 
-  if (!payments || payments.length === 0) {
+  if (!payments) {
     throw new ApiError(404, "No payment requests found");
   }
 
