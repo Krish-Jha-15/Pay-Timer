@@ -81,8 +81,7 @@ const generateAccessandRefreshToken= async(userId)=>{
 const  option={
     httpOnly:true,
     secure:true,
-    sameSite: 'none', // Critical for cross-domain cookie sharing
-    domain: '.onrender.com' // Crucial: sets the cookie for the entire render domain
+    sameSite: 'none',
   }
 
 
@@ -131,9 +130,8 @@ const login=asyncHandler(async(req,res)=>{
   const option={
     httpOnly:true,
     secure:true,
-    sameSite: 'none', // Critical for cross-domain cookie sharing
-    domain: '.onrender.com' // Crucial: sets the cookie for the entire render domain
-  }
+    sameSite: 'none', 
+      }
 
  delete otpstore[email]; 
  
@@ -168,7 +166,8 @@ const logout=asyncHandler(async(req,res)=>{
 
    const option={
       secure:true,
-      httpOnly:true
+      httpOnly:true,
+      sameSite: 'none',
    }
 
     return res.status(200)
@@ -234,6 +233,7 @@ if (user.refreshToken !== currentrefresHToken) {
   const option ={
     httpOnly:true,
     secure:true
+
   }
 
   return res.status(200)
