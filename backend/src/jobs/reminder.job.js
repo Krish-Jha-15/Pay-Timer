@@ -4,14 +4,14 @@ import { Payment } from "../model/payment.model.js";
 import { sendMail } from "../jobs/email.job.js";
 
 // Runs every day at 8:00 AM
-cron.schedule("0 8 * * *", async () => {
+cron.schedule("* * * * *", async () => {
   console.log("🕗 Running payment reminder cron...");
 
   try {
-    const link = process.env.MAIN_LINK || "https://paytimer.vercel.app/dashboard";
+    const link = process.env.MAIN_LINK || "https://pay-timer.netlify.app/dashboard";
     const presentDate = new Date();
     const payments = await Payment.find({ status: "PENDING" }).populate("owner");
-
+    console.log(`🔍 Found ${payments.length} pending payments.`);
     if (payments && payments.length > 0) {
       for (const payment of payments) {
         const deadline = new Date(payment.deadline);

@@ -7,6 +7,7 @@ import express from "express";
 import ConnectedDB from "./db/index.js";
  import { app } from "./app.js"; 
 import "./jobs/reminder.job.js"
+
 ConnectedDB()
     .then(() => {
         app.listen(process.env.PORT || 8000, () => {
