@@ -5,7 +5,7 @@ import { sendMail } from "../jobs/email.job.js";
 
 // Runs every day at 8:00 AM
 console.log("✅ [Cron] reminder.job.js loaded");
-cron.schedule("* * * * *", async () => {
+cron.schedule("0 9 * * *", async () => {
   console.log("🕗 Running payment reminder cron...");
 
   try {
