@@ -25,9 +25,10 @@ app.use(express.static("public"));
 
 import userRouter from "./router/user.router.js"
 import PaymentRouter from "./router/payment.router.js"
-
+import Reminder from "./router/reminder.route.js"
 app.use("/api/v1/users",userRouter)
 app.use("/api/v1/payments",PaymentRouter)
+app.use("/api/v1/reminders",Reminder)
 
 
 export { app };
